@@ -50,7 +50,7 @@ const sendWelcomeEmail = require('./utils/mailer'); // Email utility
 passport.use(new GoogleStrategy({
     clientID: '231860362805-jqt3jbbs7fe0umsau4q15ttjcg4tjqjq.apps.googleusercontent.com',
     clientSecret: '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',
-    callbackURL: 'http://localhost:8080/auth/google/callback'
+    callbackURL: 'https://hostelmitra.onrender.com/auth/google/callback'
   },
   async (accessToken, refreshToken, profile, done) => {
     try {
