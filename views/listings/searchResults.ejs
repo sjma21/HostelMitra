@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results - HostelMitra</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/public/styles.css">  <!-- Add custom styles -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+        .card:hover {
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .fade-in {
+            animation: fadeIn 1s ease forwards;
+            opacity: 0;
+        }
+        @keyframes fadeIn {
+            100% { opacity: 1; }
+        }
+        .badge-popular {
+            background-color: #ffc107;
+            color: white;
+            font-weight: bold;
+        }
+        .search-container {
+            margin: 30px auto;
+            width: 80%;
+            text-align: center;
+        }
+        .search-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        .no-results {
+            font-size: 1.5rem;
+            color: #dc3545;
+        }
+        #map {
+            width: 100%; /* Full width */
+        height: 500px; /* You can adjust the height as needed */
+        overflow: auto; /* Enable both horizontal and vertical scrolling */
+        position: relative;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-primary-subtle border-bottom sticky-top">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/">
+            <i class="fa-solid fa-house"></i>
+            HostelMitra
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link " aria-current="page" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/listings">View All Hostels</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/listings/new">Add new Hostels</a>
+              </li>
+            </ul>
+            <form class="d-flex mx-auto" role="search"  action="/search" method="GET" style="width: 50%;">
+              <input class="form-control me-2" type="search" name="location" placeholder="Search by Location" aria-label="Search Location" style="flex-grow: 1;">
+              <button class="btn btn-dark" type="submit">Search</button>
+            </form>
+      
+            <!-- Login/Signup/Logout links based on user authentication status -->
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+             <% if(!currUser) {%>
+    
+             <li class="nav-item">
+              <a class="nav-link" href="/login">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/signup">Signup</a>
+            </li>
+    
+            <% } %>
+    
+            <% if(currUser) {%>
+                <li class="nav-item">
+                  <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            <% }%>
+             
+            </ul>
+          </div>
+        </div>
+      </nav>
+      
+      <br>
+      <br>
+    <!-- Search Results Section -->
+    <div class="container my-5">
+        <h1 class="text-center">Search Results</h1>
+        <hr class="mb-4">
+    
+        <!-- Display Search Query Info -->
+        <div class="mb-3 text-center">
+            <p class="lead">
+                Searching for 
+                <strong><%= location ? `Location: "${location}"` : "" %></strong>
+                <strong><%= name ? `Name: "${name}"` : "" %></strong>
+            </p>
+        </div>
+    
+        <div class="row">
+            <% if(filteredListings.length > 0) { %>
+                <% filteredListings.forEach(listing => { %>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 shadow">
+                            <img src="<%= listing.image.url %>" class="card-img-top" alt="Listing Image">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= listing.hotelName %></h5>
+                                <p class="card-text"><%= listing.location %></p>
+                                <p class="card-text">Price: ₹<%= listing.price %> / month</p>
+                                <a href="/listings/<%= listing._id %>" class="btn btn-dark">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <!-- No Results Section -->
+                <div class="col-12 text-center">
+                    <div class="alert alert-warning" role="alert" style="padding: 40px; background-color: #fce5cd; border: 2px solid #3b849f;">
+                        <i class="fa-solid fa-triangle-exclamation fa-3x mb-4" style="color: #3b849f;"></i>
+                        <h4 class="alert-heading">No Results Found</h4>
+                        <p>We couldn't find any listings that match your search for <strong>"<%= location ? location : name %>"</strong>.</p>
+                        <hr>
+                        <p class="mb-0">You can try searching with different keywords or <a href="/listings" class="alert-link">browse all available hostels</a>.</p>
+                    </div>
+                </div>
+                <!-- End of No Results Section -->
+            <% } %>
+        </div>
+    </div>
+
+    <!-- Optional: Map Integration for showing hostel locations -->
+    <!-- Add a div to contain the map -->
+    <div class="container mt-5">
+        <h3>Hostel Locations on Map</h3>
+        <div id="map" style="height: 400px;"></div>
+
+    </div>
+    <br>
+    <br>
+    <br>
+
+    <!-- Include Leaflet and Leaflet Routing Machine CSS and JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css"/>
+<script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+
+<script>
+    // Pass the filtered listings data to the JavaScript code
+    const filteredListings = <%- JSON.stringify(filteredListings) %>;
+
+    // Initialize the map
+    const map = L.map('map').setView([20.5937, 78.9629], 5); // Center on India initially
+
+    // Add OpenStreetMap tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Function to apply a slight offset to prevent marker overlap
+    function getOffsetCoordinates(lat, lng, index) {
+        const offsetAmount = 0.0001 * index; // Small offset adjustment
+        return [lat + offsetAmount, lng + offsetAmount];
+    }
+
+    // Function to get user's current location
+    function getUserLocation() {
+        return new Promise((resolve, reject) => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        resolve({
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        });
+                    },
+                    (error) => {
+                        reject(error);
+                    }
+                );
+            } else {
+                reject("Geolocation not supported");
+            }
+        });
+    }
+
+    // Filter out listings with valid coordinates
+    const listingsWithCoordinates = filteredListings.filter(listing => 
+        listing.geometry && listing.geometry.coordinates && 
+        listing.geometry.coordinates.length === 2 &&
+        listing.geometry.coordinates[0] !== undefined && 
+        listing.geometry.coordinates[1] !== undefined
+    );
+
+    // Set the map view based on the first valid listing
+    if (listingsWithCoordinates.length > 0) {
+        const firstListing = listingsWithCoordinates[0];
+        map.setView([firstListing.geometry.coordinates[1], firstListing.geometry.coordinates[0]], 12);
+
+        // Get user's current location
+        getUserLocation().then(userLocation => {
+            // Create a big red circle for the user's current location
+            const userCircle = L.circle([userLocation.lat, userLocation.lng], {
+                color: 'red',    // Circle color
+                fillColor: '#f03', // Fill color
+                fillOpacity: 0.5, // Fill opacity
+                radius: 100      // Circle radius in meters
+            }).addTo(map);
+            userCircle.bindPopup("You are here");
+
+            // Create a marker for the user's current location
+            const userMarker = L.marker([userLocation.lat, userLocation.lng]).addTo(map);
+            userMarker.bindPopup("You are here");
+
+            // Loop through each hostel and add a marker with distance calculation
+            listingsWithCoordinates.forEach((listing, index) => {
+                const [lng, lat] = listing.geometry.coordinates;
+                const [adjustedLat, adjustedLng] = getOffsetCoordinates(lat, lng, index);
+
+                // Calculate distance from user's location to the hostel
+                const distance = calculateDistance(userLocation.lat, userLocation.lng, adjustedLat, adjustedLng);
+
+                const marker = L.marker([adjustedLat, adjustedLng]).addTo(map);
+                marker.bindPopup(`
+                    <b>${listing.hotelName}</b><br>
+                    Location: ${listing.location}<br>
+                    Price: ₹${listing.price} / month<br>
+                    Distance from you: ${distance.toFixed(2)} km<br>
+                    <button class="btn btn-info" id="get-route">Get Directions</button>
+                    <button class="btn btn-danger" id="close-route">Close Route</button>
+                `);
+
+                // Add a click event listener to show route when the popup is clicked
+                marker.on('popupopen', function() {
+                    let routeControl; // Variable to store routing control
+
+                    // Show route when "Get Directions" button is clicked
+                    document.getElementById('get-route').onclick = function() {
+                        if (routeControl) {
+                            map.removeControl(routeControl); // Remove any previous route before adding a new one
+                        }
+
+                        // Add a new route from user location to hostel location
+                        routeControl = L.Routing.control({
+                            waypoints: [
+                                L.latLng(userLocation.lat, userLocation.lng), // Start point (user location)
+                                L.latLng(adjustedLat, adjustedLng) // End point (hostel location)
+                            ],
+                            routeWhileDragging: true, // Allows dragging of the route
+                            createMarker: () => null // Disable creation of markers for route points
+                        }).addTo(map);
+                    };
+
+                    // Close route when "Close Route" button is clicked
+                    document.getElementById('close-route').onclick = function() {
+                        if (routeControl) {
+                            map.removeControl(routeControl); // Remove the route control from the map
+                        }
+                    };
+                });
+            });
+        }).catch(error => {
+            console.error("Unable to retrieve location", error);
+        });
+    } else {
+        // No listings with valid coordinates; map remains on the default view
+        console.warn("No valid coordinates found for the listings.");
+    }
+
+    // Function to calculate the distance between two LatLng points in km
+    function calculateDistance(lat1, lng1, lat2, lng2) {
+        const pointA = L.latLng(lat1, lng1);
+        const pointB = L.latLng(lat2, lng2);
+        return pointA.distanceTo(pointB) / 1000; // Convert to kilometers
+    }
+</script>
+
+
+    
+
+    
+    
+    
+    
+</body>
+</html>

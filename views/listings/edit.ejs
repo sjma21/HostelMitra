@@ -1,0 +1,99 @@
+<% layout("/layouts/boilerplate") %>
+<%- include("../includes/flash.ejs") %>
+
+<div class="row mt-3">
+    <div class="col-8 offset-2">
+        <h3 class="text-center mt-4 mb-4">Update Your Hostel Details</h3>
+        <p class="text-center mb-4">Make changes to your listing and keep your information up-to-date.</p>
+        
+        <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" novalidate class="needs-validation" enctype="multipart/form-data">
+            <!-- Hostel Name -->
+            <div class="mb-3">
+                <label for="listing[hotelName]" class="form-label">Hostel Name</label>
+                <input name="listing[hotelName]" value="<%= listing.hotelName %>" type="text" class="form-control" required>
+                <div class="valid-feedback">Hostel name looks good!</div>
+            </div>
+
+            <!-- Hostel Description -->
+            <div class="mb-3">
+                <label for="hostelDescription" class="form-label">Hostel Description</label>
+                <textarea name="listing[hostelDescription]" class="form-control" required><%= listing.hostelDescription %></textarea>
+                <div class="invalid-feedback">Please enter a short description.</div>
+            </div>
+
+            <!-- Original Hostel Image -->
+            <div class="mb-3">
+                Original hostel image <br>
+                <img src="<%= listing.image.url %>" style="height: 200px; width: 250px;">
+            </div>
+
+            <!-- Upload New Image -->
+            <div class="mb-3">
+                <label for="image" class="form-label">Upload New Image</label>
+                <input name="listing[image]" class="form-control" type="file">
+            </div>
+
+            <!-- Price -->
+            <div class="row">
+                <div class="mb-3 col-md-4">
+                    <label for="price" class="form-label">Price</label>
+                    <input name="listing[price]" value="<%= listing.price %>" type="number" class="form-control" required>
+                    <div class="invalid-feedback">Price should be valid.</div>
+                </div>
+
+                <!-- Location -->
+                <div class="mb-3 col-md-8">
+                    <label for="location" class="form-label">Location</label>
+                    <input name="listing[location]" type="text" value="<%= listing.location %>" class="form-control" required>
+                    <div class="invalid-feedback">Location name should be valid.</div>
+                </div>
+            </div>
+
+            <!-- Phone -->
+            <div class="mb-3">
+                <label for="phone" class="form-label">Phone:</label>
+                <input type="text" id="phone" name="listing[contact][phone]" value="<%= listing.contact.phone %>" class="form-control">
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" id="email" name="listing[contact][email]" value="<%= listing.contact.email %>" class="form-control">
+            </div>
+
+            <!-- Country -->
+            <div class="mb-3">
+                <label for="country" class="form-label">Country</label>
+                <input name="listing[country]" type="text" value="<%= listing.country %>" class="form-control" required>
+                <div class="invalid-feedback">Country name should be valid.</div>
+            </div>
+
+            <!-- Room Type -->
+            <div class="mb-3">
+                <label for="roomType" class="form-label" placeholder=" e.g., Single/Shared">Room Type</label>
+                <input name="listing[roomType]" type="text" value="<%= listing.roomType || '' %>" class="form-control">
+            </div>
+
+            <!-- Hostel Type -->
+            <div class="mb-3">
+                <label for="hostelType" class="form-label">Hostel Type</label>
+                <input name="listing[hostelType]" type="text" value="<%= listing.hostelType || '' %>" class="form-control" placeholder="e.g., girls-only/boys-only/coed">
+            </div>
+
+            <!-- Safety Features -->
+            <div class="mb-3">
+                <label for="safetyFeatures" class="form-label">Safety Features</label>
+                <input name="listing[safetyFeatures]" type="text" value="<%= listing.safetyFeatures.join(', ') %>" class="form-control" placeholder="Comma separated list of safety features">
+            </div>
+
+            <!-- Meals -->
+            <div class="mb-3">
+                <label for="meals" class="form-label">Meals</label>
+                <input name="listing[meals]" type="text" value="<%= listing.meals %>" class="form-control" placeholder="e.g., Breakfast, Lunch, Dinner">
+            </div>
+
+            <button class="btn btn-dark">Edit</button>
+            <br><br>
+        </form>
+    </div>
+</div>

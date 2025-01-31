@@ -1,0 +1,140 @@
+<% layout("/layouts/boilerplate")%>
+<!-- Flash Messages -->
+<div class="row justify-content-center mt-3">
+  <div class="col-md-6">
+      <% if (success && success.length > 0) { %>
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+              <%= success %>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+      <% } %>
+      <% if (error && error.length > 0) { %>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <%= error %>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+      <% } %>
+  </div>
+</div>
+
+<style>
+    /* Optional: to ensure custom validation feedback is visible */
+    .was-validated .form-control:invalid {
+      border-color: #dc3545;
+    }
+    .was-validated .form-control:valid {
+      border-color: #28a745;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <h2 class="mt-5 mb-4 text-center">Create Your Account</h2>
+
+        <!-- Signup form with validation -->
+        <form
+          action="/signup"
+          method="POST"
+          class="needs-validation"
+          novalidate
+        >
+          <div class="form-group mb-3">
+            <label for="username">Username</label>
+            <input
+              type="text"
+              class="form-control"
+              id="username"
+              name="username"
+              placeholder="Enter username"
+              required
+            >
+            <div class="invalid-feedback">Please enter a username.</div>
+          </div>
+          
+          
+
+          <div class="form-group mb-3">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              name="email"
+              placeholder="Enter email"
+              required
+            >
+            <div class="invalid-feedback">Please enter a valid email address.</div>
+          </div>
+
+          <div class="form-group mb-3">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              name="password"
+              placeholder="Enter password"
+              required
+              minlength="8"
+            >
+            <div class="invalid-feedback">Password must be at least 8 characters long.</div>
+          </div>
+
+          <!-- First Name and Last Name on the same line with validation -->
+          <div class="form-row mb-3">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="firstName"
+                  name="firstName"
+                  placeholder="Enter first name"
+                  required
+                >
+                <div class="invalid-feedback">Please enter your first name.</div>
+              </div>
+            </div>
+         <br>
+            <div class="col-md-6 mb-3">
+              <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="lastName"
+                  name="lastName"
+                  placeholder="Enter last name"
+                  required
+                >
+                <div class="invalid-feedback">Please enter your last name.</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group mb-3">
+            <label for="phoneNumber">Phone Number</label>
+            <input
+              type="text"
+              class="form-control"
+              id="phoneNumber"
+              name="phoneNumber"
+              placeholder="Enter phone number"
+              required
+              pattern="\d{10}"
+            >
+            <div class="invalid-feedback">Please enter a valid 10-digit phone number.</div>
+          </div>
+         
+<br>
+          <button type="submit" class="btn btn-dark btn-block">Sign Up</button>
+        </form>
+
+        <div class="text-center mt-3">
+          <p>Already have an account? <a href="/login">Login here</a>.</p>
+        </div>
+      </div>
+    </div>
+  </div>

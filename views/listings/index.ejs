@@ -1,0 +1,44 @@
+<% layout("/layouts/boilerplate") %>
+
+<%- include("../includes/flash.ejs") %>
+
+<h1 class="text-center mt-4 mb-4">Explore Our Hostels</h1>
+<p class="text-center mb-4">Find the perfect accommodation tailored to your needs and preferences. Browse through our curated list of hostels and make your choice today!</p>
+
+<!-- Filter Message -->
+<% if (filter) { %>
+  <h4>Showing results for "<%= filter.replace('-', ' ') %>"</h4>
+<% } %>
+
+<!-- Start of Form to Select Hostels for Comparison -->
+<form method="GET" action="/compare">
+  <div class="row row-cols-lg-3 row-cols-md-2 row-col-sm-1">
+    <% for (let listing of allListings) { %>
+      <div class="col">
+        <!-- Card Wrapper as a Link to the Hostel Details Page -->
+        <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
+          <div class="card" style="cursor: pointer;">
+            <img src="<%= listing.image.url %>" class="card-img-top" style="height: 20rem;" alt="listing_image">
+            <div class="card-body">
+              <p class="card-text">
+                <b><%= listing.hotelName %></b><br>
+                Rent &#8377; <%= listing.price.toLocaleString("en-IN") %> /month
+              </p>
+            </div>
+          </div>
+        </a>
+        <!-- Checkbox to select hostel for comparison -->
+        <div class="form-check mt-2">
+          <input type="checkbox" name="hostelIds" value="<%= listing._id %>" class="form-check-input">
+          <label class="form-check-label">Select for Comparison</label>
+        </div>
+      </div>
+    <% } %>
+  </div>
+
+  <!-- Submit Button to Compare Selected Hostels -->
+  <div class="text-center mt-4">
+    <button type="submit" class="btn btn-dark">Compare Selected Hostels</button>
+  </div>
+</form>
+<!-- End of Form -->

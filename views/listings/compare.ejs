@@ -1,0 +1,90 @@
+<% layout("/layouts/boilerplate") %>
+<%- include("../includes/flash.ejs") %>
+<h2 class="text-center mt-4 mb-4">Hostel Comparison</h2>
+
+<!-- Comparison Table -->
+<div class="container">
+    <table class="table table-bordered text-center">
+        <thead>
+            <tr>
+                <th>Features</th>
+                <% hostels.forEach((hostel) => { %>
+                    <th><%= hostel.hotelName ? hostel.hotelName : "No Name Available" %></th>
+                <% }); %>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Price Comparison -->
+            <tr>
+                <td><strong>Monthly Rent</strong></td>
+                <% hostels.forEach((hostel) => { %>
+                    <td>
+                        ₹ <%= hostel.price ? hostel.price.toLocaleString("en-IN") : "Not Available" %><br>
+                        <% if (recommendedHostel && hostel._id.equals(recommendedHostel._id)) { %>
+                            <span class="badge bg-success">Recommended</span>
+                        <% } %>
+                    </td>
+                <% }); %>
+            </tr>
+
+            <!-- Room Type Comparison -->
+            <tr>
+                <td><strong>Room Type</strong></td>
+                <% hostels.forEach((hostel) => { %>
+                    <td><%= hostel.roomType ? hostel.roomType.charAt(0).toUpperCase() + hostel.roomType.slice(1) : "Not Specified" %></td>
+                <% }); %>
+            </tr>
+
+            <!-- Hostel Type Comparison -->
+            <tr>
+                <td><strong>Hostel Type</strong></td>
+                <% hostels.forEach((hostel) => { %>
+                    <td><%= hostel.hostelType ? hostel.hostelType.replace("-", " ").charAt(0).toUpperCase() + hostel.hostelType.slice(1) : "Not Specified" %></td>
+                <% }); %>
+            </tr>
+
+            <!-- Safety Features Comparison -->
+            <tr>
+                <td><strong>Safety Features</strong></td>
+                <% hostels.forEach((hostel) => { %>
+                    <td><%= hostel.safetyFeatures && hostel.safetyFeatures.length ? hostel.safetyFeatures.join(", ") : "Not Available" %></td>
+                <% }); %>
+            </tr>
+
+            <!-- Meals Comparison -->
+            <tr>
+                <td><strong>Meals Provided</strong></td>
+                <% hostels.forEach((hostel) => { %>
+                    <td><%= hostel.meals ? hostel.meals : "None" %></td>
+                <% }); %>
+            </tr>
+
+            <!-- Location Comparison -->
+            <tr>
+                <td><strong>Location</strong></td>
+                <% hostels.forEach((hostel) => { %>
+                    <td><%= hostel.location ? hostel.location : "Location not specified" %>, <%= hostel.country ? hostel.country : "Country not specified" %></td>
+                <% }); %>
+            </tr>
+
+            <!-- Contact Information Comparison -->
+            <tr>
+                <td><strong>Contact Info</strong></td>
+                <% hostels.forEach((hostel) => { %>
+                    <td>
+                        <% if (hostel.contact && hostel.contact.phone) { %>
+                            <i class="fas fa-phone"></i> <%= hostel.contact.phone %><br>
+                        <% } else { %>
+                            No phone number<br>
+                        <% } %>
+                        <% if (hostel.contact && hostel.contact.email) { %>
+                            <i class="fas fa-envelope"></i> <%= hostel.contact.email %>
+                        <% } else { %>
+                            No email
+                        <% } %>
+                    </td>
+                <% }); %>
+            </tr>
+        </tbody>
+    </table>
+</div>

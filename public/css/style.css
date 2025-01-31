@@ -1,0 +1,404 @@
+body{
+  font-family: "Plus Jakarta Sans", sans-serif !important;
+}
+.navbar{
+    height: 5rem;
+}
+.fa-house{
+  color: rgb(55, 51, 28);
+  font-size: 1.5rem;
+}
+
+/* extra */
+.zoom-text {
+  display: inline-block;
+}
+
+.zoom-text span {
+  transform: scale(0);
+  animation: zoom-in 0.5s forwards;
+}
+
+@keyframes zoom-in {
+  to {
+      transform: scale(1);
+  }
+}
+
+.zoom-text span:nth-child(1) { animation-delay: 0.1s; }
+.zoom-text span:nth-child(2) { animation-delay: 0.2s; }
+/* Repeat for each letter */
+
+
+
+.nav-link{
+  color: #222222; 
+}
+
+p a{
+  text-decoration: none;
+}
+
+/* Footer styling */
+footer {
+  background-color: #f8f9fa;
+  padding: 40px 20px;
+  color: #333;
+}
+
+/* Footer headings */
+footer h3, footer h4 {
+  color: #007bff;
+  margin-bottom: 15px;
+}
+
+footer p {
+  color: #6c757d;
+  margin: 10px 0;
+}
+
+/* Quick Links, Contact, and Follow Us */
+footer ul {
+  list-style: none;
+  padding: 0;
+  text-align: left; /* Aligns links to the left */
+}
+
+footer ul li {
+  margin-bottom: 10px;
+}
+
+footer ul li a {
+  color: rgb(69 105 158);
+  text-decoration: none;
+  
+}
+.fa-brands{
+  padding: 3px;
+  color: rgb(69 105 158);
+  
+}
+
+footer ul li a:hover {
+  text-decoration: underline;
+}
+
+/* Footer layout */
+footer .footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+footer .footer-section {
+  flex: 1;
+  min-width: 250px;
+}
+
+/* Center alignment for Contact Us */
+footer .contact-section {
+  text-align: center;
+  flex: 1;
+}
+
+/* Right alignment for Follow Us */
+footer .social-section {
+  text-align: right;
+  flex: 1;
+}
+
+/* Social media icons */
+footer .social-icons img {
+  margin: 0 10px;
+  width: 24px;
+  height: 24px;
+}
+
+/* Newsletter form */
+footer form input[type="email"] {
+  padding: 10px;
+  width: 200px;
+  max-width: 100%;
+  margin-bottom: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+}
+
+footer form button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+footer form button:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+  footer .footer-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  footer .footer-section {
+    text-align: center;
+    flex: 1 1 100%;
+  }
+  
+  footer .social-section {
+    text-align: center;
+  }
+}
+
+/* Footer bottom text */
+footer .bottom-text {
+  margin-top: 30px;
+  color: #6c757d;
+  font-size: 14px;
+  text-align: center;
+}
+
+
+/* cards */
+.card{
+  border: none !important;
+  margin-bottom: 2rem;
+}
+.card-img-top {
+  border-radius: 1rem !important;
+  width: 100% !important;
+  object-fit: cover !important;
+}
+
+.card-body{
+  padding: 0 !important;
+
+}
+.card-text p {
+  font-weight: 400 !important;
+}
+
+.listing-link{
+  text-decoration: none;
+}
+
+.card-img-overlay{
+  opacity: 0;
+
+}
+.card-img-overlay:hover{
+  opacity: 0.2;
+  background-color: white;
+  
+}
+/* Card container styling */
+.card {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out, z-index 0.3s ease-in-out;
+  z-index: 1;
+}
+
+/* Hover effect on the card */
+.card:hover {
+  transform: scale(1.1); /* Scale the card up slightly */
+  z-index: 10;           /* Bring the hovered card to the front */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Add a shadow for depth */
+}
+
+/* Ensure image also transitions with the card */
+.card-img-top {
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Adjust image to scale with the card */
+.card:hover .card-img-top {
+  transform: scale(0.9); /* Slightly zoom the image when the card is hovered */
+}
+
+.show-img{
+  height: 40vh;
+}
+
+.btns{
+  display: flex;
+  padding-bottom: 100px;
+}
+.show-card{
+  padding-left: 0;
+  padding-right: 0;
+  
+}
+
+
+/* team */
+.about-member {
+  display: flex;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+.about-member img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 2rem;
+}
+.about-member-description {
+  flex: 1;
+}
+.about-heading {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* contact us */
+.contact-heading {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.contact-form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+.contact-info {
+  margin-top: 2rem;
+}
+/* Review Section */
+.review-heading {
+  font-size: 1.5rem;
+  color: #4B0082;
+  font-weight: bold;
+}
+
+.review-form {
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 15px;
+}
+
+.rating-range {
+  width: 100%;
+  accent-color: #ff9800;
+}
+
+.rating-value {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ff9800;
+  margin-left: 5px;
+}
+
+.comment-box {
+  background-color: #f3f3f3;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 0.9rem;
+}
+
+.submit-review-btn {
+  background-color: #4B0082;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: bold;
+  padding: 8px;
+  width: 100%;
+}
+
+.all-reviews-heading {
+  font-size: 1.3rem;
+  color: #2C3E50;
+  margin-bottom: 20px;
+}
+
+.review-card {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.review-card .card-body {
+  padding: 10px;
+}
+
+.review-card p {
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+.text-warning {
+  color: #ff9800 !important;
+}
+.no-reviews-message {
+  font-size: 1.2rem;
+  color: #2C3E50;
+  font-weight: bold;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.social-links {
+  margin-top: 10px;
+}
+
+.social-links a {
+  margin-right: 10px;
+  text-decoration: none;
+  color: #555;
+  font-size: 18px;
+}
+
+.social-links a:hover {
+  color: #0073b1; /* Change color on hover for LinkedIn */
+}
+
+.fab {
+  margin-right: 5px;
+}
+
+.alert {
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+#map {
+  height: 400px;
+  width: 80vh;
+    top: 0; 
+    bottom: 0; 
+    width: 100%; }
+
+    #textToSpeechBtn {
+      margin-top: 10px;
+      font-size: 16px;
+      padding: 8px 15px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+  }
+  
+  #textToSpeechBtn:hover {
+      background-color: #0056b3;
+  }
